@@ -1,9 +1,7 @@
+In order to push the jason data into hdfs, pull this into your AMI, location the (absolute) file directory of your hdfs folder that you want the data in, then in this directory, run:
 
-stockretriever.py
-A self-contained script that retrieves stock information from Yahoo! Finance using YQL
+```python
+python stock_pusher.py <Your absolute hdfs directory here>
+```
 
-Usage described @ http://www.gurchet-rai.net/dev/yahoo-finance-yql
-
-Dependencies:
-none
-
+After that, check that directory. You should see a json_stocks.txt file with all the data in it.
