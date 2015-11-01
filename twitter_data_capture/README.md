@@ -21,8 +21,12 @@ This cleans up the data and transforms it.
 - Please create twitter_data/tweets within the home directory of the user on HDFS. For example, /user/w205/twitter_data/tweets/
 
 ```sh
-$ spark15/bin/spark-submit --packages 'org.twitter4j:twitter4j-stream:3.0.3'  --class com.ucb.w205.TwitterFinanceStocksFeed <path to w205-0.0.1-SNAPSHOT.jar>  <consumer key> <consumer secret> <access token> <access token secret> 
+$ spark15/bin/spark-submit --packages 'org.twitter4j:twitter4j-stream:3.0.4'  --class com.ucb.w205.TwitterFinanceStocksFeed <path to w205-0.0.1-SNAPSHOT.jar>  <consumer key> <consumer secret> <access token> <access token secret>  <path to stock ticker list>
+```
 
+- TweetTransform is no longer needed but can serve as example code on how to load the generated data for additional processing.
+
+```sh
 $ park15/bin/spark-submit --class com.ucb.w205.TweetTransform <path to w205-0.0.1-SNAPSHOT.jar>  'twitter_data/tweets/tweets*/part-*'
 ```
 
