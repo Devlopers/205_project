@@ -29,14 +29,6 @@ object TweetTransform {
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
 
-    // Pretty print some of the tweets.
-    //val tweets = sc.textFile(tweetInput)
-
-    // commented output to UI
-//    println("------------Sample JSON Tweets-------")
-//    for (tweet <- tweets.take(5)) {
-//      println(gson.toJson(jsonParser.parse(tweet)))
-//    }
 
     val tweetTable = sqlContext.read.json(tweetInput).cache()
     //tweetTable.registerTempTable("tweetTable")
@@ -45,33 +37,18 @@ object TweetTransform {
     tweetTable.printSchema()
 
     println(tweetTable.show(1))
-    //println("----Sample Tweet Text-----")
-    //sqlContext.sql("SELECT createdAt,text,retweetCount,id,isPossiblySensitive FROM tweetTable LIMIT 10").collect().foreach(println)
 
-//    println("------Sample Lang, Name, text---")
-//    sqlContext.sql("SELECT user.lang, user.name, text FROM tweetTable LIMIT 1000").collect().foreach(println)
+//    // sample script to expand hashtag entities
+//    val foo = tweetTable.select("hashtagEntities", "id", "text")
 //
-//    println("------Total count by languages Lang, count(*)---")
-//    sqlContext.sql("SELECT user.lang, COUNT(*) as cnt FROM tweetTable GROUP BY user.lang ORDER BY cnt DESC LIMIT 25").collect.foreach(println)
+//    case class fooTag (hashtag_end:Long, hashtag_start:Long, hashtag_text: String)
 //
-//    println("--- Training the model and persist it")
-//    val texts = sqlContext.sql("SELECT text from tweetTable").map(_.head.toString)
-//    // Cache the vectors RDD since it will be used for all the KMeans iterations.
-//    val vectors = texts.map(Utils.featurize).cache()
-//    vectors.count()  // Calls an action on the RDD to populate the vectors cache.
-//    val model = KMeans.train(vectors, numClusters, numIterations)
-//    sc.makeRDD(model.clusterCenters, numClusters).saveAsObjectFile(outputModelDir)
-//
-//    val some_tweets = texts.take(100)
-//    println("----Example tweets from the clusters")
-//    for (i <- 0 until numClusters) {
-//      println(s"\nCLUSTER $i:")
-//      some_tweets.foreach { t =>
-//        if (model.predict(Utils.featurize(t)) == i) {
-//          println(t)
-//        }
-//      }
+//    val explodedFoo = foo.explode(foo("hashtagEntities")) {
+//      case Row(hashtagEntity : Seq[Row]) => hashtagEntity.map(hashtagEntity =>
+//        fooTag(hashtagEntity(0).asInstanceOf[Long], hashtagEntity(1).asInstanceOf[Long], hashtagEntity(2).asInstanceOf[String])
+//      )
 //    }
+
   }
 
 }
