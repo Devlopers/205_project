@@ -8,6 +8,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.sql.Row
+import java.util.Calendar
 
 
 /**
@@ -18,7 +19,7 @@ object TwitterFinanceStocksFeed {
   private var partNum = 0
   private var numTweetCollected = 0L
   private val outputDirectory = "twitter_data/tweets/"
-  private var numTweetsToCollect = 100
+  private var numTweetsToCollect = 5000
   private var intervalSecs = 20
   private var partitionsEachInterval = 1
 
@@ -69,9 +70,17 @@ object TwitterFinanceStocksFeed {
           case Row(symbolEntity :Seq[Row]) => symbolEntity.map(symbolEntity =>
             symbols(symbolEntity(2).asInstanceOf[String]))
         }
+
         val tweets = exploded_tweet.select("id","createdAt","text","retweetCount","stock_ticker")
-        tweets.write.format("json").save(outputDirectory +"/tweets_"+time.milliseconds.toString)
-        //outputRDD.saveAsTextFile(outputDirectory +"/tweets_"+time.milliseconds.toString)
+
+        var curTimestamp = time.milliseconds
+        var cal = Calendar.getInstance()
+        cal.setTimeInMillis(curTimestamp)
+        var curDate = "" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DAY_OF_MONTH)
+        val finalOutputDirectory = outputDirectory + "/" + curDate + "/"
+
+        tweets.write.format("json").save(finalOutputDirectory + "tweets_" + curTimestamp.toString)
+        //outputRDD.saveAsTextFile(finalOutputDirectory + "tweets_"+time.milliseconds.toString)
         numTweetCollected += count
 
         if(numTweetCollected > numTweetsToCollect)
