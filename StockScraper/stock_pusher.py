@@ -15,7 +15,7 @@ for blob in range(len(stock_info)):
 def date_handler(obj):
     return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
-out_path = argv[1] + "/stocks.txt"
+out_path = argv[1] + "/stocks_" + str(datetime.now().strftime('%Y-%m-%d')) + ".txt"
 
 if __name__ == "__main__":
     with open(out_path, 'w') as outfile:
