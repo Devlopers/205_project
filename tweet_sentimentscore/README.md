@@ -60,6 +60,7 @@ Code modifcations
  4. Data is written back into HDFS as  json file under the directory twitter_data/tweets/processed/<'model name'>/<'date of the original directory code processed'>
  5. Copy the python script to home directopry of user w205
  6. Run the code as user w205 and from spark15 directory.
-  ```
-  spark15>../bin/pyspark ~/tweet_sentiment.py
-  ```
+
+ ```
+ spark15>../bin/pyspark ~/tweet_sentiment.py
+ ```
