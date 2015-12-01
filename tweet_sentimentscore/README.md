@@ -58,3 +58,8 @@ Code modifcations
  2. The code allows you to select a model for sentiment analysis. If you select COMBINED it currently runs INDICOCO and TEXTBLOB. I have not included the TEXTBLOB Naive Bayes classifier as its taking longer time to run. 
  3. The code processes one directory at a time. I added a break in the for loop to ensure we wouldn't hit the API limits.
  4. Data is written back into HDFS as  json file under the directory twitter_data/tweets/processed/<'model name'>/<'date of the original directory code processed'>
+ 5. Copy the python script to home directopry of user w205
+ 6. Run the code as user w205 and from spark15 directory.
+  ```
+  spark15>../bin/pyspark ~/tweet_sentiment.py
+  ```
