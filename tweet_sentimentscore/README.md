@@ -17,7 +17,6 @@ Steps
  ```
  4.  We will need some additional libraries so run the below command
  ```
-pip2.7 install urllib3
 pip2.7 install pandas
 pip2.7 install IPython
  ```
