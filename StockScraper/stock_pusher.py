@@ -23,20 +23,20 @@ if __name__ == "__main__":
             json.dump(stock_data, outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
     elif resp == 'historical':
         path = raw_input('Path: ')
-        stock_symb = raw_input('Stock Symbol: ')
         start_date = raw_input('Start Date (in mm/dd/yy format): ')
         end_date = raw_input('End Date (in mm/dd/yy format): ')
-        out_path = path + "/historical_stocks_" + stock_symb + "_" + start_date.replace("/",".") + "_to_" + end_date.replace("/",".") + ".txt"
-        with open(out_path, 'w') as outfile:
+        for stock_symb in dj_30:
+            out_path = path + "/historical_stocks_" + stock_symb + "_" + start_date.replace("/",".") + "_to_" + end_date.replace("/",".") + ".txt"
             try:
-                stock_info = st.get_historical_info(stock_symb, start_date, end_date)
-                stock_data = {}
-                for blob in range(len(stock_info)):
-                    stock_data[blob]["price"] = float(stock_info[blob]["Close"])
-                    stock_data[blob] = {"symbol":stock_symb,"date":{},"price":{}}
-                    stock_data[blob]["date"] = stock_info[blob]['Date']
-                print stock_data
-                json.dump(stock_data, outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+                with open(out_path, 'w') as outfile:
+                        stock_info = st.get_historical_info(stock_symb, start_date, end_date)
+                        stock_data = {}
+                        for blob in range(len(stock_info)):
+                            stock_data[blob] = {"price":{}, "symbol":stock_symb,"date":{}}
+                            stock_data[blob]["price"] = float(stock_info[blob]["Close"])
+                            stock_data[blob]["date"] = stock_info[blob]['Date']
+                        print stock_data
+                        json.dump(stock_data, outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
             except Exception as e:
                 print e
-    		
+            		

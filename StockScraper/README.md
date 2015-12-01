@@ -1,7 +1,25 @@
-In order to push the jason data into hdfs, pull this into your AMI, location the (absolute) file directory of your hdfs folder that you want the data in, then in this directory, run:
+I've added a feature to the code that allows for us to pull historical finance data. In order to pull today's data like in the past, it needs to be run a little differently now. First, run:
 
 ```
-python stock_pusher.py <Your absolute hdfs directory here>
+python stock_pusher.py
 ```
 
-After that, check that directory. You should see a json_stocks.txt file with all the data in it.
+Then there will be a series of prompts. To get today's here is the series of prompts:
+
+```
+python stock_pusher.py
+today/historical?: today
+Path: <your path here>
+```
+
+If you want to pull historical data, here is the series of prompts:
+
+```
+python stock_pusher.py
+today/historical?: historical
+Path: <your path here>
+Start Date (in mm/dd/yy format): mm/dd/yy
+End Date (in mm/dd/yy format): mm/dd/yy
+```
+
+Be careful where you store historical data, though, because a separate file will be produced for each stock symbol.
