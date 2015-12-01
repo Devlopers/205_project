@@ -1,13 +1,13 @@
 """A wrapper for the Yahoo! Finance YQL api."""
 
-import sys, httplib, urllib
+import sys, httplib, urllib, time
 
 try: import simplejson as json
 except ImportError: import json
 
 PUBLIC_API_URL = 'http://query.yahooapis.com/v1/public/yql'
 DATATABLES_URL = 'store://datatables.org/alltableswithkeys'
-HISTORICAL_URL = 'http://ichart.finance.yahoo.com/table.csv?s='
+HISTORICAL_URL = 'http://ichart.finance.yahoo.com/table.csv'
 RSS_URL = 'http://finance.yahoo.com/rss/headline?s='
 FINANCE_TABLES = {'quotes': 'yahoo.finance.quotes',
                  'options': 'yahoo.finance.options',
@@ -73,14 +73,18 @@ def get_current_info(symbolList, columnsToRetrieve='*'):
 
 
 
-def get_historical_info(symbol):
+def get_historical_info(symbol, startdate, enddate):
 	"""Retrieves historical stock data for the provided symbol.
 	Historical data includes date, open, close, high, low, volume,
-	and adjusted close."""
-	
+	and adjusted close.
+	Startdate and enddate need to be in 'mm/dd/yy' format.
+	"""
+	start = time.strptime(startdate, '%m/%d/%y')
+	end = time.strptime(enddate, '%m/%d/%y')
+	date_string = '?g=d&f=' + str(end.tm_year) + '&e=' + str(end.tm_mday) + '&c=' + str(start.tm_year) + '&b=' + str(start.tm_mday) + '&a=' + str(start.tm_mon-1) + '&d=' + str(end.tm_mon-1)
 	yql = 'select * from csv where url=\'%s\'' \
 		  ' and columns=\"Date,Open,High,Low,Close,Volume,AdjClose\"' \
-		   % (HISTORICAL_URL + symbol)
+		   % (HISTORICAL_URL + date_string + '&s=' + symbol)
 	results = executeYQLQuery(yql)
 	# delete first row which contains column names
 	del results['query']['results']['row'][0]
