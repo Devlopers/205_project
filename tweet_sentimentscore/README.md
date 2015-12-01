@@ -62,5 +62,5 @@ Code modifcations
  6. Run the code as user w205 and from spark15 directory.
 
  ```
- spark15>../bin/pyspark ~/tweet_sentiment.py
+ spark15>./bin/pyspark ~/tweet_sentiment.py
  ```
