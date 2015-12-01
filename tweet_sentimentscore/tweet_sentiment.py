@@ -7,6 +7,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql import HiveContext
 
 import urllib3
+import requests.packages.urllib3
 import indicoio
 import sys
 import os
@@ -58,7 +59,7 @@ def find_unprocessed_dirs(model_name):
 
 # Sentiment analysis function using Indicoio https://indico.io/
 def indicoioSentiment(x):
-  urllib3.disable_warnings()
+  requests.packages.urllib3.disable_warnings()
   indicoio.config.api_key = '<add ur key here >'
   return indicoio.sentiment(x)
 
@@ -117,7 +118,7 @@ def executeSentimentAnalysis(dataDirName, dataDir, modelName, tableName, query):
 if __name__ == "__main__":
     sc = SparkContext()
     sqlContext = SQLContext(sc)
-    urllib3.disable_warnings()
+    requests.packages.urllib3.disable_warnings()
 
     #register UDFs
     sqlContext.registerFunction("indicoioSentiment", indicoioSentiment, FloatType())
