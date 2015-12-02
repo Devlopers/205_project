@@ -7,6 +7,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql import HiveContext
 
 import urllib3
+import collections
 import requests.packages.urllib3
 import indicoio
 import sys
@@ -129,7 +130,9 @@ if __name__ == "__main__":
     APPLY_MODEL = COMBINED
 
     tweet_datadirs = dfs_handle.list_directory("twitter_data/tweets/")
-    datadirs = find_unprocessed_dirs(APPLY_MODEL)
+    datadirs = find_unprocessed_dirs(APPLY_MODEL
+    #sorting the datadirs
+    datadirs = collections.OrderedDict(sorted(datadirs.items()))
 
     print ("No. of unprocessed dirs: "+str(len(datadirs)))
     for datadir in datadirs.keys():
