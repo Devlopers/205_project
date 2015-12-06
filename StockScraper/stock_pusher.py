@@ -13,14 +13,12 @@ if __name__ == "__main__":
         out_path = path + "/stocks_" + str(datetime.now().strftime('%Y-%m-%d')) + ".txt"
         with open(out_path, 'w') as outfile:
             stock_info = st.get_current_info(dj_30)
-            stock_data = {}
-            for blob in range(len(stock_info)):
-                stock_data[blob] = {"symbol":{},"time":{},"price":{}}
-                stock_data[blob]["symbol"] = stock_info[blob]["Symbol"] 
-                stock_data[blob]["time"] = datetime.strptime(stock_info[blob]["LastTradeDate"]+" "+stock_info[blob]["LastTradeTime"], '%m/%d/%Y %I:%M%p')
-                stock_data[blob]["price"] = float(stock_info[blob]["LastTradePriceOnly"])
+            stock_data = []
+            for stock in stock_info:
+                stock_data.append({"symbol":stock["Symbol"] ,"time":stock["LastTradeDate"],"price":float(stock["LastTradePriceOnly"])})
             print stock_data
-            json.dump(stock_data, outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+            for i in range(len(stock_data)):
+                json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
     elif resp == 'historical':
         path = raw_input('Path: ')
         start_date = raw_input('Start Date (in mm/dd/yy format): ')
