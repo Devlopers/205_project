@@ -108,10 +108,11 @@ def executeSentimentAnalysis(dataDirName, dataDir, modelName, tableName, query):
   df = sqlContext.read.json(dataDir + "/tweets_*/")
   print ("Processing " + str(df.count()) + " tweets from " + datadir + " using query: " + query)
   sqlContext.registerDataFrameAsTable(df, tableName)
-  analysed_df = sqlContext.sql(query)
   finalOutputDirectory = PROCESSED_DATA_DIR + modelName + "/" + dataDirName + "/"
-  print ("Writing " + str(analysed_df.count()) + " tweets to " + finalOutputDirectory)
-  analysed_df.write.format("json").save(finalOutputDirectory)
+  sqlContext.sql(query).write.format("json").save(finalOutputDirectory)
+  #print ("Writing processsed tweets to " + finalOutputDirectory)
+  #analysed_df.write.format("json").save(finalOutputDirectory)
+  print ("Finished writing processed tweets to " + finalOutputDirectory)
   # rows = analysed_df.head(10)
   # for row in rows:
   #   print row
