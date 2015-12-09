@@ -15,7 +15,7 @@ if __name__ == "__main__":
             stock_info = st.get_current_info(dj_30)
             stock_data = []
             for stock in stock_info:
-                stock_data.append({"symbol":stock["Symbol"] ,"time":stock["LastTradeDate"],"price":float(stock["LastTradePriceOnly"])})
+                stock_data.append({"symbol":stock["Symbol"] ,"date":stock["LastTradeDate"],"price":float(stock["LastTradePriceOnly"])})
             print stock_data
             for i in range(len(stock_data)):
                 json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
@@ -28,13 +28,12 @@ if __name__ == "__main__":
             try:
                 with open(out_path, 'w') as outfile:
                         stock_info = st.get_historical_info(stock_symb, start_date, end_date)
-                        stock_data = {}
-                        for blob in range(len(stock_info)):
-                            stock_data[blob] = {"price":{}, "symbol":stock_symb,"date":{}}
-                            stock_data[blob]["price"] = float(stock_info[blob]["Close"])
-                            stock_data[blob]["date"] = stock_info[blob]['Date']
+                        stock_data = []
+                        for stock in stock_info:
+                            stock_data.append({"symbol":stock_symb, "date": stock['Date'], "price":float(stock["Close"])})
                         print stock_data
-                        json.dump(stock_data, outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+                        for i in range(len(stock_data)):
+                            json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
             except Exception as e:
                 print e
             		
