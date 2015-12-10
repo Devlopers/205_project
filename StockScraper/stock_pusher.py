@@ -13,12 +13,18 @@ if __name__ == "__main__":
         out_path = path + "/stocks_" + str(datetime.now().strftime('%Y-%m-%d')) + ".txt"
         with open(out_path, 'w') as outfile:
             stock_info = st.get_current_info(dj_30)
+            #print stock_info
             stock_data = []
             for stock in stock_info:
-                stock_data.append({"symbol":stock["Symbol"] ,"date":stock["LastTradeDate"],"price":float(stock["LastTradePriceOnly"])})
-            print stock_data
+                stock_data.append({"symbol":stock["Symbol"], "date":stock["LastTradeDate"], "price":float(stock["LastTradePriceOnly"])})
+            #print stock_data
             for i in range(len(stock_data)):
-                json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+                print json.dumps(stock_data[i])
+                outfile.write(json.dumps(stock_data[i]))
+                outfile.write("\n")
+                #json.dumps(stock_data[i], outfile) # sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+        outfile.close()
+        print "wrote data to %s" % out_path  
     elif resp == 'historical':
         path = raw_input('Path: ')
         start_date = raw_input('Start Date (in mm/dd/yy format): ')
@@ -33,7 +39,9 @@ if __name__ == "__main__":
                             stock_data.append({"symbol":stock_symb, "date": stock['Date'], "price":float(stock["Close"])})
                         print stock_data
                         for i in range(len(stock_data)):
-                            json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
+                          outfile.write(json.dumps(stock_data[i]))
+                          outfile.write("\n")  
+                          #json.dump(stock_data[i], outfile, sort_keys = True, indent = 4, ensure_ascii=False, default=date_handler)
             except Exception as e:
                 print e
-            		
+        print "wrote data to files located at: %s" % path 		
