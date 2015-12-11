@@ -6,11 +6,9 @@
 ## Location of custom code 
 - The source code is located : src/main/scala/com/ucb/w205/
 
-#### TwitterFinanceStocksFeed.scala (WIP)
+#### TwitterFinanceStocksFeed.scala (Final)
 This pull tweets from Twitter to HDFS.  
 
-#### TweetTransform.scala (WIP)
-This cleans up the data and transforms it.
 
 ## How to compile code
 - Run "mvn clean install -DskipTests" to compile the code. 
