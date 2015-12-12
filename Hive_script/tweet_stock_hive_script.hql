@@ -9,7 +9,7 @@ location '/user/w205/twitter_data/processed/combined/';
 
 drop table dj_30_tickers;
 create external table dj_30_tickers (ticker string);
-load data local inpath '/home/w205/205_project/Hive_script/stock_tickers.csv' overwrite into table dj_30_tickers;
+load data local inpath '/home/w205/205_project/Hive_script/stock_tickers.txt' overwrite into table dj_30_tickers;
 
 drop table tweets;
 create table tweets as
