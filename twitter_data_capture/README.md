@@ -22,7 +22,7 @@ This pull tweets from Twitter to HDFS.
 ```sh
 $ spark15/bin/spark-submit --packages 'org.twitter4j:twitter4j-stream:3.0.4'  --class com.ucb.w205.TwitterFinanceStocksFeed <path to w205-0.0.1-SNAPSHOT.jar>  <consumer key> <consumer secret> <access token> <access token secret>  <path to stock ticker list>
 
-If you not running m3.large instance of EC2 than you need to modify the above command 
+If you are not running m3.large instance of EC2 than you need to modify the above command 
 $ spark15/bin/spark-submit --master local[3] --packages 'org.twitter4j:twitter4j-stream:3.0.4'  --class com.ucb.w205.TwitterFinanceStocksFeed <path to w205-0.0.1-SNAPSHOT.jar>  <consumer key> <consumer secret> <access token> <access token secret>  <path to stock ticker list>
 ```
 
